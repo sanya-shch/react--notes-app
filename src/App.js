@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import List from './components/List';
-import Tasks from './components/Tasks';
-import AddList from './components/AddList';
+import { List, AddList, Tasks } from './components';
 import DB from './assets/db.json';
 
 function App() {
