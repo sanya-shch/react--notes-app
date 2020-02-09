@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import List from './components/List';
+import Tasks from './components/Tasks';
 import AddList from './components/AddList';
 import DB from './assets/db.json';
 
@@ -52,8 +53,9 @@ function App() {
           colors={DB.colors}
         />
       </div>
-      <div className="todo__tasks">
 
+      <div className="todo__tasks">
+        <Tasks />
       </div>
     </div>
   );
