@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Route, useHistory } from 'react-router-dom';
 import { List, AddList, Tasks } from './components';
 
 
@@ -93,15 +94,27 @@ function App() {
       </div>
 
       <div className="todo__tasks">
-        {
-          lists && activeItem && (
+        <Route exact path="/">
+          {lists &&
+          lists.map(list => (
+            <Tasks
+              key={list.id}
+              list={list}
+              onAddTask={onAddTask}
+              onEditTitle={onEditListTitle}
+              withoutEmpty
+            />
+          ))}
+        </Route>
+        <Route path="/lists/:id">
+          {lists && activeItem && (
             <Tasks
               list={activeItem}
               onAddTask={onAddTask}
               onEditTitle={onEditListTitle}
             />
-          )
-        }
+          )}
+        </Route>
       </div>
     </div>
   );
