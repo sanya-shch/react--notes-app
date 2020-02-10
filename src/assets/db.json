@@ -35,8 +35,8 @@
     {
       "id": 1,
       "listId": 2,
-      "text": "Изучить JavaScript",
-      "completed": false
+      "text": "JavaScript",
+      "completed": true
     },
     {
       "id": 2,
@@ -47,20 +47,38 @@
     {
       "id": 3,
       "listId": 2,
-      "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
+      "text": "ReactJS Hooks",
       "completed": true
     },
     {
       "id": 4,
       "listId": 2,
-      "text": "Redux (redux-observable, redux-saga)",
-      "completed": false
+      "text": "Redux",
+      "completed": true
     },
     {
       "listId": 3,
       "text": "Breaking Bad",
       "completed": false,
       "id": 5
+    },
+    {
+      "listId": 2,
+      "text": "Redux-thunk",
+      "completed": true,
+      "id": 6
+    },
+    {
+      "listId": 1,
+      "text": "Хлеб",
+      "completed": false,
+      "id": 7
+    },
+    {
+      "listId": 1,
+      "text": "Масло",
+      "completed": false,
+      "id": 8
     }
   ],
   "colors": [

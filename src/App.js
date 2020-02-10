@@ -9,6 +9,8 @@ function App() {
   const [colors, setColors] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
 
+  let history = useHistory();
+
   useEffect(() => {
     axios
       .get('http://localhost:3001/lists?_expand=color&_embed=tasks')
@@ -45,12 +47,89 @@ function App() {
     setLists(newList);
   };
 
+  const onEditTask = (listId, taskObj) => {
+    const newTaskText = window.prompt('Текст задачи', taskObj.text);
+
+    if (!newTaskText) {
+      return;
+    }
+
+    const newList = lists.map(list => {
+      if (list.id === listId) {
+        list.tasks = list.tasks.map(task => {
+          if (task.id === taskObj.id) {
+            task.text = newTaskText;
+          }
+          return task;
+        });
+      }
+      return list;
+    });
+    setLists(newList);
+    axios
+      .patch('http://localhost:3001/tasks/' + taskObj.id, {
+        text: newTaskText
+      })
+      .catch(() => {
+        alert('Не удалось обновить задачу');
+      });
+  };
+
+  const onRemoveTask = (listId, taskId) => {
+    if (window.confirm('Вы действительно хотите удалить задачу?')) {
+      const newList = lists.map(item => {
+        if (item.id === listId) {
+          item.tasks = item.tasks.filter(task => task.id !== taskId);
+        }
+        return item;
+      });
+      setLists(newList);
+      axios.delete('http://localhost:3001/tasks/' + taskId).catch(() => {
+        alert('Не удалось удалить задачу');
+      });
+    }
+  };
+
+  const onCompleteTask = (listId, taskId, completed) => {
+    const newList = lists.map(list => {
+      if (list.id === listId) {
+        list.tasks = list.tasks.map(task => {
+          if (task.id === taskId) {
+            task.completed = completed;
+          }
+          return task;
+        });
+      }
+      return list;
+    });
+    setLists(newList);
+    axios
+      .patch('http://localhost:3001/tasks/' + taskId, {
+        completed
+      })
+      .catch(() => {
+        alert('Не удалось обновить задачу');
+      });
+  };
+
+  useEffect(() => {
+    const listId = history.location.pathname.split('lists/')[1];
+    if (lists) {
+      const list = lists.find(list => list.id === Number(listId));
+      setActiveItem(list);
+    }
+  }, [lists, history.location.pathname]);
+
   return (
     <div className="todo">
       <div className="todo__sidebar">
         <List
+          onClickItem={list => {
+            history.push(`/`);
+          }}
           items={[
             {
+              active: history.location.pathname === '/',
               icon: (
                 <svg
                   width="18"
@@ -77,8 +156,8 @@ function App() {
                 const newLists = lists.filter(item => item.id !== id);
                 setLists(newLists);
               }}
-              onClickItem={item => {
-                setActiveItem(item);
+              onClickItem={list => {
+                history.push(`/lists/${list.id}`);
               }}
               activeItem={activeItem}
               isRemovable
@@ -102,6 +181,9 @@ function App() {
               list={list}
               onAddTask={onAddTask}
               onEditTitle={onEditListTitle}
+              onRemoveTask={onRemoveTask}
+              onEditTask={onEditTask}
+              onCompleteTask={onCompleteTask}
               withoutEmpty
             />
           ))}
@@ -112,6 +194,9 @@ function App() {
               list={activeItem}
               onAddTask={onAddTask}
               onEditTitle={onEditListTitle}
+              onRemoveTask={onRemoveTask}
+              onEditTask={onEditTask}
+              onCompleteTask={onCompleteTask}
             />
           )}
         </Route>
