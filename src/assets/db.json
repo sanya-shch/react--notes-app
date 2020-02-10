@@ -11,24 +11,24 @@
       "colorId": 4
     },
     {
-      "id": 2,
+      "id": 3,
       "name": "Фильмы и сериалы",
       "colorId": 3
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "Книги",
       "colorId": 2
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Личное",
       "colorId": 1
     },
     {
       "name": "Sport",
       "colorId": 6,
-      "id": 5
+      "id": 6
     }
   ],
   "tasks": [
@@ -55,6 +55,12 @@
       "listId": 2,
       "text": "Redux (redux-observable, redux-saga)",
       "completed": false
+    },
+    {
+      "listId": 3,
+      "text": "Breaking Bad",
+      "completed": false,
+      "id": 5
     }
   ],
   "colors": [
